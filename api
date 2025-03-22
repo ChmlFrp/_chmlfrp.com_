@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API 状态监控看板</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --success-color: #27ae60;
+            --warning-color: #f1c40f;
+            --danger-color: #e74c3c;
+            --text-color: #34495e;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #ecf0f1;
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+            transition: transform 0.2s;
+        }
+
+        .container:hover {
+            transform: translateY(-2px);
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 30px;
+            font-size: 2.2em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .status-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .status-badge {
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+
+        .status-success {
+            background: var(--success-color);
+            color: white;
+        }
+
+        .status-error {
+            background: var(--danger-color);
+            color: white;
+        }
+
+        .refresh-timer {
+            font-size: 0.9em;
+            color: #7f8c8d;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .metric-card {
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            transition: transform 0.2s;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-3px);
+            background: linear-gradient(145deg, #ffffff, #f1f3f5);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .metric-label {
+            font-size: 0.95em;
+            color: #7f8c8d;
+            margin-bottom: 8px;
+        }
+
+        .metric-value {
+            font-size: 1.4em;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .progress-container {
+            height: 24px;
+            background: #e0e0e0;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            margin: 25px 0;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0;
+            transition: width 0.5s ease, background-color 0.3s;
+            display: flex;
+            align-items: center;
+            padding-left: 15px;
+            font-size: 0.9em;
+            color: white;
+        }
+
+        .progress-low { background: var(--success-color); }
+        .progress-medium { background: var(--warning-color); }
+        .progress-high { background: var(--danger-color); }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+            
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .loading {
+            position: relative;
+            color: transparent !important;
+        }
+
+        .loading::after {
+            content: "";
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            border: 3px solid #ddd;
+            border-top-color: var(--primary-color);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            right: -25px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        @keyframes spin {
+            to { transform: translateY(-50%) rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📊 API 健康状态监控</h1>
+        
+        <div class="status-header">
+            <div class="status-indicator">
+                <div id="statusBadge" class="status-badge">...</div>
+                <div id="refreshTimer" class="refresh-timer"></div>
+            </div>
+            <div class="server-info">
+                <span id="serverName">🖥️ 服务器名称加载中...</span>
+            </div>
+        </div>
+
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-label">总负载</div>
+                <div class="metric-value" id="load">--</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">CPU 使用率</div>
+                <div class="metric-value" id="cpu">--%</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">内存压力</div>
+                <div class="metric-value" id="memory">--%</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">宿主机抢占</div>
+                <div class="metric-value" id="steal">--</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">IO 延迟</div>
+                <div class="metric-value" id="ioLatency">--ms</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">线程争用</div>
+                <div class="metric-value" id="threadContention">--%</div>
+            </div>
+        </div>
+
+        <div class="progress-container">
+            <div id="loadProgress" class="progress-bar"></div>
+        </div>
+    </div>
+
+    <script>
+        let refreshInterval = 20; // 刷新间隔（秒）
+        let countdown = refreshInterval;
+        let timerId;
+
+        function updateTimerDisplay() {
+            document.getElementById('refreshTimer').textContent = 
+                `🕒 ${countdown}秒后刷新...`;
+        }
+
+        function startCountdown() {
+            clearInterval(timerId);
+            countdown = refreshInterval;
+            updateTimerDisplay();
+            timerId = setInterval(() => {
+                countdown--;
+                updateTimerDisplay();
+                if(countdown <= 0) {
+                    clearInterval(timerId);
+                }
+            }, 1000);
+        }
+
+        async function fetchApiStatus() {
+            try {
+                document.getElementById('statusBadge').className = 'status-badge loading';
+                
+                const response = await fetch('http://cf-v2.uapis.cn/api/server-status');
+                const data = await response.json();
+                
+                // 更新状态指示
+                document.getElementById('statusBadge').className = 'status-badge status-success';
+                document.getElementById('statusBadge').textContent = '✅ 在线（200 OK）';
+
+                // 更新服务器信息
+                document.getElementById('serverName').textContent = `🖥️ ${data.serverName}`;
+
+                // 更新指标数据
+                const metrics = [
+                    { id: 'load', value: `${data.load.toFixed(2)}%` },
+                    { id: 'cpu', value: `${data.metrics.cpu.toFixed(2)}%` },
+                    { id: 'memory', value: `${data.metrics.memory.toFixed(2)}%` },
+                    { id: 'steal', value: data.metrics.steal.toFixed(2) },
+                    { id: 'ioLatency', value: `${data.metrics.ioLatency.toFixed(2)}ms` },
+                    { id: 'threadContention', value: `${data.metrics.threadContention.toFixed(2)}%` }
+                ];
+
+                metrics.forEach(metric => {
+                    const element = document.getElementById(metric.id);
+                    element.textContent = metric.value;
+                    element.classList.remove('loading');
+                });
+
+                // 更新进度条
+                const loadValue = parseFloat(data.load);
+                const progressBar = document.getElementById('loadProgress');
+                progressBar.style.width = `${loadValue}%`;
+                progressBar.textContent = `${loadValue.toFixed(2)}%`;
+
+                progressBar.className = 'progress-bar ' + (
+                    loadValue <= 50 ? 'progress-low' :
+                    loadValue <= 75 ? 'progress-medium' : 'progress-high'
+                );
+
+            } catch (error) {
+                document.getElementById('statusBadge').className = 'status-badge status-error';
+                document.getElementById('statusBadge').textContent = '❌ 连接失败（500）';
+                
+                document.querySelectorAll('.metric-value').forEach(el => {
+                    el.textContent = '--';
+                    el.classList.remove('loading');
+                });
+
+                const progressBar = document.getElementById('loadProgress');
+                progressBar.style.width = '0%';
+                progressBar.textContent = '获取失败';
+            } finally {
+                startCountdown();
+            }
+        }
+
+        // 初始化
+        setInterval(fetchApiStatus, refreshInterval * 1000);
+        fetchApiStatus();
+    </script>
+</body>
+</html>
