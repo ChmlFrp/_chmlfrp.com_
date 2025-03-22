@@ -6,6 +6,108 @@
     <title>ChmlFrp 启动器列表</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="https://chmlfrp.cn/favicon.ico" type="image/x-icon">
+    <style>
+        /* 弹窗样式 */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 10% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 800px;
+            border-radius: 10px;
+            position: relative;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* 加载动画 */
+        .loader {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #3498db;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* 卡片样式 */
+        .card {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 10px;
+            width: 300px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .card img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+        }
+
+        .card h3 {
+            margin: 10px 0;
+        }
+
+        .card p {
+            margin: 5px 0;
+        }
+
+        .card a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .card a:hover {
+            text-decoration: underline;
+        }
+
+        .download-btn {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .download-btn:hover {
+            background-color: #218838;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -16,47 +118,140 @@
             <li><a href="index.html">首页</a></li>
             <li><a href="launchers.html">启动器列表</a></li>
             <li><a href="users.html">用户</a></li>
-            <li><a href="api.html"target="_blank">api状态</a></li>
+            <li><a href="api.html" target="_blank">API 状态</a></li>
         </ul>
     </nav>
     <main>
         <h2>启动器列表</h2>
         <div class="container">
-            <div class="card">
+            <!-- XCL 卡片 -->
+            <div class="card" data-md-url="https://raw.githubusercontent.com/FengXiang2233/Xingcheng-Chmlfrp-Lanucher/refs/heads/main/README.md">
                 <img src="http://q1.qlogo.cn/g?b=qq&nk=1281754856&s=640" alt="xcl">
                 <h3>Xingcheng-Chmlfrp-Lanucher</h3>
-                <p>一个用于启动chmlfrp服务的客户端。</p>
+                <p>一个用于启动 chmlfrp 服务的客户端。</p>
                 <a href="https://github.com/FengXiang2233/Xingcheng-Chmlfrp-Lanucher/" target="_blank">xcl.chmlfrp.com</a>
                 <p>作者：FengXiang2233</p>
-                <p>下载链接：<a href="https://github.com/boringstudents/xcl/releases/download/XCL.II-Alpha.zip" target="_blank">https://github.com/FengXiang2233/download/XCL.II-Alpha.zip</a></p>
+                <p>版本：2.0</p>
+                <p>下载链接：<a href="https://github.com/boringstudents/xcl/releases/download/XCL.II-Alpha.zip" target="_blank">XCL.II-Alpha.zip</a></p>
                 <button class="download-btn" onclick="window.open('https://ghproxy.net/https://github.com/boringstudents/xcl/releases/download/0.0.1/XCL.II-Alpha.zip')">加速下载</button>
             </div>
-            
-            <div class="card">
+
+            <!-- CPL 卡片 -->
+            <div class="card" data-md-url="https://raw.githubusercontent.com/ChmlFrp/ChmlFrp_Professional_Launcher/refs/heads/master/README.md" data-api-url="https://raw.githubusercontent.com/boringstudents/cpl/refs/heads/main/update/update.json">
                 <img src="https://github.com/ChmlFrp/ChmlFrp_Professional_Launcher/raw/refs/heads/master/.github/icon/logo.ico" alt="cpl">
                 <h3>ChmlFrp_Professional_Launcher</h3>
-                <p>ChmlFrp第三方Windows图形化客户端，使用 WPF+ C# + .net framework 开发。</p>
+                <p>ChmlFrp 第三方 Windows 图形化客户端，使用 WPF + C# + .NET Framework 开发。</p>
                 <a href="https://github.com/ChmlFrp/ChmlFrp_Professional_Launcher" target="_blank">cpl.chmlfrp.com</a>
                 <p>作者：Qianyiaz</p>
-                <p>下载链接：<a href="https://cpl.chmlfrp.com/bin/Lastest.exe" target="_blank">https://cpl.chmlfrp.com/bin/Lastest.exe</a></p>
+                <p>下载链接：<a href="https://cpl.chmlfrp.com/bin/Lastest.exe" target="_blank">Lastest.exe</a></p>
                 <button class="download-btn" onclick="window.open('https://ghproxy.net/https://github.com/boringstudents/cpl/blob/main/bin/Lastest.exe')">加速下载</button>
             </div>
 
-            <div class="card">
+            <!-- CUL 卡片 -->
+            <div class="card" data-md-url="https://raw.githubusercontent.com/boringstudents/CHMLFRP-UI-Launcher/refs/heads/master/README.md" data-api-url="https://api.github.com/repos/boringstudents/CHMLFRP-UI-Launcher/releases/latest">
                 <img src="https://raw.githubusercontent.com/boringstudents/CHMLFRP-UI-Launcher/refs/heads/master/favicon.ico" alt="cul">
                 <h3>CHMLFRP-UI-Launcher</h3>
-                <p>ChmlFrp第三方Windows图形化客户端，使用 PyQt6 + PY 开发。</p>
+                <p>ChmlFrp 第三方 Windows 图形化客户端，使用 PyQt6 + Python 开发。</p>
                 <a href="https://github.com/boringstudents/CHMLFRP-UI-Launcher/" target="_blank">cul.chmlfrp.com</a>
                 <p>作者：boringstudents</p>
-                <p>下载链接：<a href="https://cul.lanzoul.com/b00pzv3oyj" target="_blank">https://cul.lanzoul.com/b00pzv3oyj</a> 密码: ff50</p>
+                <p>下载链接：<a href="https://cul.lanzoul.com/b00pzv3oyj" target="_blank">CUL 下载</a> 密码: ff50</p>
             </div>
-            <!-- 添加更多启动器卡片 -->
-            <div style="height: 100px;"></div> <!-- 留空的部分 -->
         </div>
     </main>
     <footer>
         <p>© 2025 Github.com/ChmlFrp</p>
     </footer>
-    <script src="script.js"></script>
+
+    <!-- 弹窗 -->
+    <div class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="markdown-content">
+                <!-- 加载动画 -->
+                <div class="loader"></div>
+                <p style="text-align: center;">加载中，请稍候...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 引入 marked.js 用于解析 Markdown -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const cards = document.querySelectorAll('.card');
+            const modal = document.querySelector('.modal');
+            const closeBtn = modal.querySelector('.close');
+            const markdownContent = document.getElementById('markdown-content');
+
+            // 关闭弹窗
+            closeBtn.addEventListener('click', () => {
+                modal.style.display = 'none';
+            });
+
+            // 点击外部关闭弹窗
+            window.addEventListener('click', (event) => {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+
+            // 卡片点击事件
+            cards.forEach(card => {
+                card.addEventListener('click', async () => {
+                    const mdUrl = card.getAttribute('data-md-url');
+                    const apiUrl = card.getAttribute('data-api-url');
+
+                    // 显示弹窗和加载动画
+                    modal.style.display = 'block';
+                    markdownContent.innerHTML = `
+                        <div class="loader"></div>
+                        <p style="text-align: center;">加载中，请稍候...</p>
+                    `;
+
+                    try {
+                        let content = '';
+
+                        // 如果是 CPL 卡片，加载版本信息
+                        if (apiUrl && card.querySelector('h3').textContent === 'ChmlFrp_Professional_Launcher') {
+                            const apiResponse = await fetch(apiUrl);
+                            const apiData = await apiResponse.json();
+                            content += `
+                                <h3>版本: ${apiData.version}</h3>
+                                <p>更新内容: ${apiData.text}</p>
+                                <a href="${apiData.url}" target="_blank">下载最新版本</a>
+                                <hr>
+                            `;
+                        }
+                        // 如果是 CUL 卡片，加载版本信息
+                        else if (apiUrl && card.querySelector('h3').textContent === 'CHMLFRP-UI-Launcher') {
+                            const apiResponse = await fetch(apiUrl);
+                            const apiData = await apiResponse.json();
+                            const tagName = apiData.tag_name || '未知版本';
+                            let downloadUrl = '暂无下载链接';
+                            if (apiData.assets && apiData.assets.length > 0) {
+                                downloadUrl = apiData.assets[0].browser_download_url;
+                            }
+                            content += `
+                                <h3>版本: ${tagName}</h3>
+                                <p>下载链接: <a href="${downloadUrl}" target="_blank">${downloadUrl}</a></p>
+                                <hr>
+                            `;
+                        }
+
+                        // 加载 Markdown 文件
+                        const response = await fetch(mdUrl);
+                        const markdown = await response.text();
+                        content += marked.parse(markdown);
+
+                        // 更新弹窗内容
+                        markdownContent.innerHTML = content;
+                    } catch (error) {
+                        console.error('加载失败:', error);
+                        markdownContent.innerHTML = '<p>加载内容失败，请稍后重试。</p>';
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
