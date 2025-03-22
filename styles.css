@@ -43,7 +43,7 @@ section {
 }
 
 section h2 {
-    color: #FFFFFF; /* Changed from green to white */
+    color: #000000; /* Changed from green to black for better readability */
 }
 
 section h3 {
@@ -112,7 +112,6 @@ footer {
 .user-container, .container {
     padding-bottom: 100px; /* 在容器下方留出空白 */
 }
-
 .container {
     padding-bottom: 100px; /* 在容器下方留出空白 */
 }
