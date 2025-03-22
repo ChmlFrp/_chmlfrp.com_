@@ -1,20 +1,32 @@
+:root {
+    --primary-color: #333;
+    --secondary-color: #007BFF;
+    --background-color: #FFFFFF;
+    --text-color: #333;
+    --header-background: #FFFFFF;
+    --header-text-color: #000000;
+    --footer-background: #333;
+    --footer-text-color: white;
+    --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: var(--font-family);
     margin: 0;
     padding: 0;
-    background-color: #FFFFFF; /* Set background to white */
-    color: #333;
+    background-color: var(--background-color);
+    color: var(--text-color);
 }
 
 header {
-    background-color: #FFFFFF; /* Changed from green to white */
-    color: #000000; /* Set text color to black */
+    background-color: var(--header-background);
+    color: var(--header-text-color);
     padding: 10px 0;
     text-align: center;
 }
 
 nav {
-    background-color: #333;
+    background-color: var(--primary-color);
     padding: 10px 0;
 }
 
@@ -32,6 +44,11 @@ nav ul li {
 nav ul li a {
     color: white;
     text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+    color: var(--secondary-color);
 }
 
 main {
@@ -43,11 +60,11 @@ section {
 }
 
 section h2 {
-    color: #000000; /* Changed from green to black for better readability */
+    color: var(--header-text-color);
 }
 
 section h3 {
-    color: #333;
+    color: var(--text-color);
 }
 
 section ul {
@@ -60,13 +77,18 @@ section ul li {
 }
 
 section ul li a {
-    color: #007BFF;
+    color: var(--secondary-color);
     text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+section ul li a:hover {
+    color: darken(var(--secondary-color), 10%);
 }
 
 footer {
-    background-color: #333;
-    color: white;
+    background-color: var(--footer-background);
+    color: var(--footer-text-color);
     text-align: center;
     padding: 10px 0;
     position: fixed;
@@ -74,29 +96,35 @@ footer {
     bottom: 0;
 }
 
-/* 新增样式 */
 .container {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
+    padding-bottom: 100px;
 }
 
 .card, .user-card {
-    background-color: #fff;
+    background-color: var(--background-color);
     border: 1px solid #ddd;
     border-radius: 5px;
     margin: 10px;
     padding: 15px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    width: calc(33.333% - 20px); /* 每行显示3个卡片，留出间距 */
+    width: calc(33.333% - 20px);
     text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover, .user-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .card img, .user-card img {
-    width: 100px; /* 设置图片宽度 */
-    height: 100px; /* 设置图片高度 */
-    border-radius: 50%; /* 圆形头像 */
-    object-fit: cover; /* 确保图片填充整个区域 */
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
     margin-bottom: 10px;
 }
 
@@ -109,6 +137,17 @@ footer {
     color: #666;
 }
 
+@media (max-width: 768px) {
+    .card, .user-card {
+        width: calc(50% - 20px);
+    }
+}
+
+@media (max-width: 480px) {
+    .card, .user-card {
+        width: calc(100% - 20px);
+    }
+}
 .user-container, .container {
     padding-bottom: 100px; /* 在容器下方留出空白 */
 }
