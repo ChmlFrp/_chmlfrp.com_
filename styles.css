@@ -10,6 +10,9 @@
     --footer-background: #333;
     --footer-text-color: white;
     --font-family: 'Roboto', sans-serif;
+    --button-background: #4A90E2;
+    --button-hover-background: #50E3C2;
+    --button-color: white;
 }
 
 body {
@@ -148,6 +151,21 @@ footer {
 .card p, .user-card p {
     font-size: 14px;
     color: #666;
+}
+
+.download-btn {
+    background-color: var(--button-background);
+    color: var(--button-color);
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.download-btn:hover {
+    background-color: var(--button-hover-background);
+    transform: translateY(-2px);
 }
 
 @media (max-width: 768px) {
