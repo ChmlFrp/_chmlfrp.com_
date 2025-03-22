@@ -2,13 +2,13 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f9;
+    background-color: #FFFFFF; /* Set background to white */
     color: #333;
 }
 
 header {
-    background-color: #4CAF50;
-    color: white;
+    background-color: #FFFFFF; /* Changed from green to white */
+    color: #000000; /* Set text color to black */
     padding: 10px 0;
     text-align: center;
 }
@@ -43,7 +43,7 @@ section {
 }
 
 section h2 {
-    color: #4CAF50;
+    color: #FFFFFF; /* Changed from green to white */
 }
 
 section h3 {
