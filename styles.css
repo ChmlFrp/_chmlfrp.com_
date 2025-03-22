@@ -108,3 +108,7 @@ footer {
     font-size: 14px;
     color: #666;
 }
+
+.user-container, .container {
+    padding-bottom: 100px; /* 在容器下方留出空白 */
+}
