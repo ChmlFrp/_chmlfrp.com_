@@ -73,3 +73,38 @@ footer {
     width: 100%;
     bottom: 0;
 }
+
+/* 新增样式 */
+.user-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.user-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin: 10px;
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: calc(33.333% - 20px); /* 每行显示3个卡片，留出间距 */
+    text-align: center;
+}
+
+.user-card img {
+    width: 100px; /* 设置图片宽度 */
+    height: 100px; /* 设置图片高度 */
+    border-radius: 50%; /* 圆形头像 */
+    object-fit: cover; /* 确保图片填充整个区域 */
+    margin-bottom: 10px;
+}
+
+.user-card h3 {
+    margin: 0 0 5px;
+}
+
+.user-card p {
+    font-size: 14px;
+    color: #666;
+}
