@@ -1,0 +1,3 @@
+# Normalize EOL for all files that Git considers text files.
+*.css text eol=lf
+*.html text eol=crlf
