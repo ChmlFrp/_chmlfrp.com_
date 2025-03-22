@@ -75,13 +75,13 @@ footer {
 }
 
 /* 新增样式 */
-.user-container {
+.container {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
 }
 
-.user-card {
+.card, .user-card {
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 5px;
@@ -92,7 +92,7 @@ footer {
     text-align: center;
 }
 
-.user-card img {
+.card img, .user-card img {
     width: 100px; /* 设置图片宽度 */
     height: 100px; /* 设置图片高度 */
     border-radius: 50%; /* 圆形头像 */
@@ -100,11 +100,11 @@ footer {
     margin-bottom: 10px;
 }
 
-.user-card h3 {
+.card h3, .user-card h3 {
     margin: 0 0 5px;
 }
 
-.user-card p {
+.card p, .user-card p {
     font-size: 14px;
     color: #666;
 }
