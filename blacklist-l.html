@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>启动器黑名单</title>
+    <style>
+        /* 全局样式 */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* 容器样式 */
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            width: 90%;
+            max-width: 1200px;
+        }
+
+        /* 标题样式 */
+        h1 {
+            text-align: center;
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        /* 表格样式 */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            color: #555;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+            transition: background-color 0.3s ease;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            th, td {
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>黑名单</h1>
+        <table id="blacklistTable">
+            <thead>
+                <tr>
+                    <th>原因</th>
+                    <th>封锁时间</th>
+                    <th>应用归属</th>
+                    <th>邮箱</th>
+                    <th>解封时间</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- 数据将通过JavaScript填充 -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // 获取黑名单数据的URL
+        const url = "https://raw.githubusercontent.com/ChmlFrp/_chmlfrp.com_/refs/heads/main/blacklist.api.json";
+
+        // 获取数据并填充表格
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                const list = data.data.list;
+                const tbody = document.querySelector("#blacklistTable tbody");
+
+                list.forEach(item => {
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+                        <td>${item.reason}</td>
+                        <td>${item["Blockade-time"]}</td>
+                        <td>${item["app-belongs"]}</td>
+                        <td>${item.email}</td>
+                        <td>${item["Unblocking-time"]}</td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            })
+            .catch(error => {
+                console.error("获取数据时出错:", error);
+            });
+    </script>
+</body>
+</html>
