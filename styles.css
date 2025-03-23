@@ -128,6 +128,9 @@ footer {
     width: calc(33.333% - 40px);
     text-align: center;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-decoration: none;
+    color: inherit;
+    display: block;
 }
 
 .card:hover, .user-card:hover {
