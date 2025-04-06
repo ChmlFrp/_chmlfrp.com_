@@ -102,6 +102,30 @@
             word-break: break-word; /* 在长单词处断行 */
         }
         
+        /* 添加刷新按钮样式 */
+        .refresh-button {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 10px 20px;
+            margin: 20px 0;
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+            display: inline-block;
+            font-size: 0.9rem;
+        }
+        
+        .refresh-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .refresh-button i {
+            margin-right: 5px;
+        }
+        
         /* 额外的响应式调整 */
         @media (max-width: 768px) {
             .blacklist-header {

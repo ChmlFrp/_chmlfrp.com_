@@ -3,226 +3,347 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>启动器黑名单</title>
+    <title>ChmlFrp 启动器列表</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="https://chmlfrp.cn/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
-        .blacklist-container {
+        /* 启动器列表页特殊样式 */
+        .launcher-filters {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0 30px;
+        }
+        
+        .filter-btn {
+            background-color: #f1f1f1;
+            border: none;
+            color: var(--text-color);
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+        
+        .filter-btn:hover, .filter-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .launcher-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .launcher-card {
             background: white;
             border-radius: var(--border-radius);
+            overflow: hidden;
             box-shadow: var(--shadow);
-            padding: 30px;
-            margin-bottom: 120px;
-            width: 100%; /* 确保容器占满父元素宽度 */
-            overflow: hidden; /* 防止内容溢出 */
-            box-sizing: border-box; /* 盒模型设置，确保padding计入宽度 */
-        }
-        
-        .blacklist-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-            gap: 20px;
-            width: 100%; /* 确保头部占满容器宽度 */
-        }
-        
-        .blacklist-stats {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap; /* 允许在小屏幕上换行 */
-        }
-        
-        .stat-card {
-            background-color: var(--background-color);
-            padding: 15px 20px;
-            border-radius: 10px;
-            min-width: 120px;
-            text-align: center;
-            flex-grow: 1; /* 允许卡片在空间足够时扩展 */
-            max-width: 180px; /* 限制最大宽度 */
-        }
-        
-        .search-box {
+            transition: var(--transition);
             position: relative;
-            width: 100%; /* 修改为100%宽度 */
-            max-width: 300px;
-            margin-left: auto; /* 在大屏幕上靠右对齐 */
         }
         
-        .search-box input {
-            width: 100%;
-            padding: 10px 15px 10px 40px;
-            border: 1px solid #ddd;
-            border-radius: 30px;
-            outline: none;
-            font-size: 0.9rem;
-            transition: var(--transition);
-            box-sizing: border-box; /* 确保padding计入宽度 */
+        .launcher-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
         }
         
-        .search-box i {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #999;
-            pointer-events: none; /* 确保图标不影响输入 */
-        }
-        
-        .blacklist-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            overflow-x: auto; /* 允许表格在小屏幕上滚动 */
-            display: block; /* 在小屏幕上允许水平滚动 */
-        }
-        
-        @media (min-width: 769px) {
-            .blacklist-table {
-                display: table; /* 在大屏幕上正常显示 */
-            }
-        }
-        
-        /* 确保表格内容不溢出 */
-        .blacklist-table thead,
-        .blacklist-table tbody,
-        .blacklist-table tr {
-            width: 100%;
-        }
-        
-        .blacklist-table th,
-        .blacklist-table td {
-            padding: 15px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-            white-space: normal; /* 允许文本换行 */
-            word-break: break-word; /* 在长单词处断行 */
-        }
-        
-        /* 添加刷新按钮样式 */
-        .refresh-button {
+        .launcher-banner {
+            height: 120px;
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            border: none;
-            border-radius: 30px;
-            padding: 10px 20px;
-            margin: 20px 0;
-            cursor: pointer;
-            font-weight: 500;
-            transition: var(--transition);
-            display: inline-block;
+            position: relative;
+        }
+        
+        .launcher-logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            position: absolute;
+            bottom: -30px;
+            left: 30px;
+            border: 5px solid white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            object-fit: cover;
+            background-color: white;
+        }
+        
+        .launcher-content {
+            padding: 40px 25px 25px;
+        }
+        
+        .launcher-name {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin: 0 0 10px;
+            font-size: 1.2rem;
+        }
+        
+        .launcher-desc {
+            color: var(--text-secondary);
             font-size: 0.9rem;
+            margin-bottom: 15px;
+            line-height: 1.5;
         }
         
-        .refresh-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        .launcher-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 20px 0;
         }
         
-        .refresh-button i {
+        .launcher-meta-item {
+            display: flex;
+            align-items: center;
+            font-size: 0.85rem;
+        }
+        
+        .launcher-meta-item i {
+            color: var(--primary-color);
             margin-right: 5px;
         }
         
-        /* 额外的响应式调整 */
-        @media (max-width: 768px) {
-            .blacklist-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            
-            .blacklist-stats {
-                width: 100%;
-                justify-content: space-between;
-            }
-            
-            .search-box {
-                max-width: 100%; /* 在小屏幕上占满宽度 */
-                margin-left: 0; /* 在小屏幕上取消右对齐 */
-            }
-            
-            .stat-card {
-                min-width: 0; /* 在小屏幕上允许更窄 */
-                flex-basis: calc(50% - 10px); /* 在平板上两列显示 */
-                max-width: none; /* 移除最大宽度限制 */
-            }
+        .launcher-links {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
         }
         
-        @media (max-width: 480px) {
-            .stat-card {
-                flex-basis: 100%; /* 在手机上单列显示 */
-            }
-            
-            .blacklist-container {
-                padding: 20px 15px; /* 减少内边距 */
-            }
+        .launcher-btn {
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            text-decoration: none;
+            transition: var(--transition);
+            flex: 1;
+            text-align: center;
+        }
+        
+        .github-btn {
+            background-color: #24292e;
+            color: white;
+        }
+        
+        .github-btn:hover {
+            background-color: #1a1d21;
+            transform: translateY(-3px);
+        }
+        
+        .download-btn {
+            margin: 0;
+        }
+        
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 15px;
+        }
+        
+        .tech-tag {
+            background-color: rgba(52, 152, 219, 0.1);
+            color: var(--primary-color);
+            border-radius: 15px;
+            padding: 3px 10px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        /* 弹窗样式优化 */
+        .modal-header {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin: 0;
+        }
+        
+        #markdown-content {
+            line-height: 1.6;
+        }
+        
+        #markdown-content h1,
+        #markdown-content h2,
+        #markdown-content h3 {
+            color: var(--primary-color);
+            margin-top: 25px;
+        }
+        
+        #markdown-content img {
+            max-width: 100%;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        #markdown-content pre,
+        #markdown-content code {
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            padding: 10px;
+            font-family: monospace;
+            overflow-x: auto;
+        }
+        
+        /* 更新说明样式 */
+        .markdown-display {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0 15px 0;
+            border: 1px solid #e9ecef;
+        }
+        
+        .markdown-code {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            margin: 0;
+            padding: 0;
+            border: none;
+            background: transparent;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: visible;
         }
     </style>
 </head>
 <body>
     <header>
-        <h1><i class="fas fa-user-slash"></i> 启动器黑名单</h1>
+        <h1><i class="fas fa-rocket"></i> ChmlFrp 第三方启动器</h1>
     </header>
     <nav>
         <ul>
-            <li><a href="index.html"><i class="fas fa-home"></i> 返回首页</a></li>
+            <li><a href="index.html"><i class="fas fa-home"></i> 首页</a></li>
+            <li><a href="launchers.html"><i class="fas fa-list"></i> 启动器列表</a></li>
+            <li><a href="users.html"><i class="fas fa-users"></i> 作者</a></li>
             <li><a href="api.html" target="_blank"><i class="fas fa-chart-line"></i> API状态</a></li>
             <li><a href="blacklist.html" target="_blank"><i class="fas fa-ban"></i> 联盟黑名单</a></li>
+            <li><a href="blacklist-l.html" target="_blank"><i class="fas fa-user-slash"></i> 启动器黑名单</a></li>
         </ul>
     </nav>
     <main>
-        <div class="blacklist-container">
-            <div class="blacklist-header">
-                <div class="blacklist-stats">
-                    <div class="stat-card">
-                        <div class="stat-value" id="totalCount">0</div>
-                        <div class="stat-label">总黑名单数</div>
+        <h2><i class="fas fa-rocket"></i> 启动器列表</h2>
+        
+        <div class="launcher-filters">
+            <button class="filter-btn active" data-filter="all">全部</button>
+            <button class="filter-btn" data-filter="wpf">.NET/WPF</button>
+            <button class="filter-btn" data-filter="python">Python</button>
+        </div>
+        
+        <div class="launcher-grid">
+            <!-- XCL 卡片 -->
+            <div class="launcher-card" id="xcl" data-category="python" data-md-url="https://raw.githubusercontent.com/FengXiangQaQ/Xingcheng-Chmlfrp-Lanucher/refs/heads/main/README.md">
+                <div class="launcher-banner"></div>
+                <img src="http://q1.qlogo.cn/g?b=qq&nk=1281754856&s=640" alt="xcl" class="launcher-logo">
+                <div class="launcher-content">
+                    <h3 class="launcher-name">Xingcheng-Chmlfrp-Lanucher</h3>
+                    <p class="launcher-desc">一个用于启动 chmlfrp 服务的客户端，简洁易用，功能完善。</p>
+                    
+                    <div class="tech-tags">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">Tkinter</span>
+                        <span class="tech-tag">Win32api</span>
                     </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="activeCount">0</div>
-                        <div class="stat-label">当前生效</div>
+                    
+                    <div class="launcher-meta">
+                        <div class="launcher-meta-item">
+                            <i class="fas fa-code-branch"></i>
+                            <span>版本: 2.0</span>
+                        </div>
+                        <div class="launcher-meta-item">
+                            <i class="fas fa-user"></i>
+                            <span>作者: FengXiangqaq</span>
+                        </div>
                     </div>
-                </div>
-                <div class="search-box">
-                    <i class="fas fa-search"></i>
-                    <input type="text" id="searchInput" placeholder="搜索邮箱或原因..." />
+                    
+                    <div class="launcher-links">
+                        <a href="https://github.com/FengXiangqaq/Xingcheng-Chmlfrp-Lanucher/" target="_blank" class="launcher-btn github-btn">
+                            <i class="fab fa-github"></i> GitHub
+                        </a>
+                        <a href="https://ghproxy.net/https://github.com/boringstudents/xcl/releases/download/0.0.1/XCL.II-Alpha.zip" class="launcher-btn download-btn">
+                            <i class="fas fa-download"></i> 加速下载
+                        </a>
+                    </div>
                 </div>
             </div>
-            
-            <table class="blacklist-table">
-                <thead>
-                    <tr>
-                        <th>原因</th>
-                        <th>封锁时间</th>
-                        <th>应用归属</th>
-                        <th>邮箱</th>
-                        <th>解封时间</th>
-                        <th>状态</th>
-                    </tr>
-                </thead>
-                <tbody id="blacklistTableBody">
-                    <!-- 数据将通过JavaScript填充 -->
-                </tbody>
-            </table>
-            
-            <div class="empty-state" id="emptyState" style="display: none;">
-                <div class="empty-icon">
-                    <i class="fas fa-inbox"></i>
+
+            <!-- CPL 卡片 -->
+            <div class="launcher-card" id="cpl" data-category="wpf" data-md-url="https://raw.githubusercontent.com/ChmlFrp/ChmlFrp_Professional_Launcher/refs/heads/master/README.md" data-api-url="https://raw.githubusercontent.com/boringstudents/cpl/refs/heads/main/update/update.json">
+                <div class="launcher-banner"></div>
+                <img src="https://github.com/ChmlFrp/ChmlFrp_Professional_Launcher/raw/refs/heads/master/.github/icon/logo.ico" alt="cpl" class="launcher-logo">
+                <div class="launcher-content">
+                    <h3 class="launcher-name">ChmlFrp_Professional_Launcher</h3>
+                    <p class="launcher-desc">ChmlFrp 第三方 Windows 图形化客户端，使用 WPF + C# + .NET Framework 开发。功能丰富，界面美观。</p>
+                    
+                    <div class="tech-tags">
+                        <span class="tech-tag">WPF</span>
+                        <span class="tech-tag">C#</span>
+                        <span class="tech-tag">.NET Framework</span>
+                    </div>
+                    
+                    <div class="launcher-meta">
+                        <div class="launcher-meta-item">
+                            <i class="fas fa-user"></i>
+                            <span>作者: Qianyiaz</span>
+                        </div>
+                    </div>
+                    
+                    <div class="launcher-links">
+                        <a href="https://github.com/ChmlFrp/ChmlFrp_Professional_Launcher" target="_blank" class="launcher-btn github-btn">
+                            <i class="fab fa-github"></i> GitHub
+                        </a>
+                        <a href="#" id="cpl-download-btn" class="launcher-btn download-btn">
+                            <i class="fas fa-download"></i> 加速下载
+                        </a>
+                    </div>
                 </div>
-                <h3>没有找到相关记录</h3>
-                <p>尝试使用不同的搜索条件，或者清除搜索</p>
             </div>
-            
-            <!-- 刷新按钮 -->
-            <button id="refreshButton" class="refresh-button">
-                <i class="fas fa-sync-alt"></i> 刷新数据
-            </button>
-            
-            <!-- 分页控件 -->
-            <div class="pagination" id="pagination">
-                <!-- 分页将通过JavaScript填充 -->
+
+            <!-- CUL 卡片 -->
+            <div class="launcher-card" id="cul" data-category="python" data-md-url="https://raw.githubusercontent.com/boringstudents/CHMLFRP-UI-Launcher/refs/heads/master/README.md" data-api-url="https://api.github.com/repos/boringstudents/CHMLFRP-UI-Launcher/releases/latest">
+                <div class="launcher-banner"></div>
+                <img src="https://raw.githubusercontent.com/boringstudents/CHMLFRP-UI-Launcher/refs/heads/master/%E5%8E%9F%E5%A7%8B%E5%9B%BE%E5%83%8F/%E6%9C%89%E5%BA%95/favicon512.png" alt="cul" class="launcher-logo">
+                <div class="launcher-content">
+                    <h3 class="launcher-name">CHMLFRP-UI-Launcher</h3>
+                    <p class="launcher-desc">ChmlFrp 第三方 Windows 图形化客户端，使用 PyQt6 + Python 开发。高自由度和高扩展操作。</p>
+                    
+                    <div class="tech-tags">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">PyQt6</span>
+                        <span class="tech-tag">GUI</span>
+                    </div>
+                    
+                    <div class="launcher-meta">
+                        <div class="launcher-meta-item">
+                            <i class="fas fa-user"></i>
+                            <span>作者: boringstudents</span>
+                        </div>
+                    </div>
+                    
+                    <div class="launcher-links">
+                        <a href="https://github.com/boringstudents/CHMLFRP-UI-Launcher/" target="_blank" class="launcher-btn github-btn">
+                            <i class="fab fa-github"></i> GitHub
+                        </a>
+                        <a href="https://cul.lanzoul.com/b00pzv3oyj" target="_blank" class="launcher-btn download-btn">
+                            <i class="fas fa-download"></i> 蓝奏云下载
+                        </a>
+                    </div>
+                    <div class="launcher-note">
+                        <i class="fas fa-info-circle"></i> 蓝奏云密码: ff50
+                    </div>
+                </div>
             </div>
         </div>
     </main>
@@ -237,228 +358,216 @@
         </div>
     </footer>
 
+    <!-- 弹窗 -->
+    <div class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="modal-header">
+                <h2 class="modal-title">启动器详情</h2>
+            </div>
+            <div id="markdown-content">
+                <!-- 加载动画 -->
+                <div class="loader"></div>
+                <p style="text-align: center;">加载中，请稍候...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 引入 marked.js 用于解析 Markdown -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // 配置
-            const pageSize = 10; // 每页显示记录数
-            let currentPage = 1;
-            let filteredData = [];
+        document.addEventListener('DOMContentLoaded', function () {
+            const cards = document.querySelectorAll('.launcher-card');
+            const modal = document.querySelector('.modal');
+            const closeBtn = modal.querySelector('.close');
+            const markdownContent = document.getElementById('markdown-content');
+            const filterBtns = document.querySelectorAll('.filter-btn');
+
+            // 随机渐变颜色
+            const colors = [
+                ['#3498db', '#2ecc71'],
+                ['#9b59b6', '#3498db'],
+                ['#e74c3c', '#f39c12'],
+                ['#1abc9c', '#3498db'],
+                ['#f39c12', '#d35400'],
+                ['#8e44ad', '#3498db']
+            ];
             
-            // 获取黑名单数据的URL
-            const url = "https://raw.githubusercontent.com/ChmlFrp/_chmlfrp.com_/refs/heads/main/blacklist.api.json";
-            
-            // 获取DOM元素
-            const tableBody = document.getElementById('blacklistTableBody');
-            const totalCountEl = document.getElementById('totalCount');
-            const activeCountEl = document.getElementById('activeCount');
-            const searchInput = document.getElementById('searchInput');
-            const emptyState = document.getElementById('emptyState');
-            const pagination = document.getElementById('pagination');
-            const refreshButton = document.getElementById('refreshButton');
-            
-            // 加载数据
-            async function loadData() {
-                try {
-                    // 显示加载状态
-                    tableBody.innerHTML = `
-                        <tr>
-                            <td colspan="6" style="text-align: center;">
-                                <div class="loader"></div>
-                                <p>加载数据中...</p>
-                            </td>
-                        </tr>
-                    `;
+            // 为每个启动器卡片添加随机渐变背景
+            cards.forEach((card, index) => {
+                const banner = card.querySelector('.launcher-banner');
+                const colorPair = colors[index % colors.length];
+                banner.style.background = `linear-gradient(135deg, ${colorPair[0]}, ${colorPair[1]})`;
+            });
+
+            // 过滤功能
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const filter = btn.getAttribute('data-filter');
                     
-                    const response = await fetch(url);
-                    const data = await response.json();
-                    const list = data.data.list;
+                    // 更新活动状态
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
                     
-                    // 更新统计数据
-                    totalCountEl.textContent = list.length;
-                    
-                    // 计算当前生效的黑名单数量
-                    const now = new Date();
-                    const activeItems = list.filter(item => {
-                        const unblockTime = new Date(item["Unblocking-time"]);
-                        return unblockTime > now;
-                    });
-                    activeCountEl.textContent = activeItems.length;
-                    
-                    // 初始化过滤后的数据
-                    filteredData = list;
-                    
-                    // 显示数据
-                    renderTable();
-                    
-                    // 搜索功能
-                    searchInput.addEventListener('input', function() {
-                        const searchTerm = this.value.toLowerCase();
-                        if (searchTerm === '') {
-                            filteredData = list;
+                    // 过滤卡片
+                    cards.forEach(card => {
+                        const category = card.getAttribute('data-category');
+                        if (filter === 'all' || category === filter) {
+                            card.style.display = 'block';
                         } else {
-                            filteredData = list.filter(item => 
-                                item.email.toLowerCase().includes(searchTerm) || 
-                                item.reason.toLowerCase().includes(searchTerm) ||
-                                item["app-belongs"].toLowerCase().includes(searchTerm)
-                            );
+                            card.style.display = 'none';
                         }
-                        currentPage = 1;
-                        renderTable();
                     });
+                });
+            });
+
+            // 关闭弹窗
+            closeBtn.addEventListener('click', () => {
+                modal.style.display = 'none';
+            });
+
+            // 点击外部关闭弹窗
+            window.addEventListener('click', (event) => {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+
+            // 更新CPL下载链接
+            async function updateCPLDownloadLink() {
+                try {
+                    const cplCard = document.getElementById('cpl');
+                    if (!cplCard) return;
                     
-                    // 刷新按钮
-                    refreshButton.addEventListener('click', loadData);
+                    const apiUrl = cplCard.getAttribute('data-api-url');
+                    const downloadBtn = document.getElementById('cpl-download-btn');
                     
+                    if (!apiUrl || !downloadBtn) return;
+                    
+                    // 获取版本数据
+                    const response = await fetch(apiUrl);
+                    const data = await response.json();
+                    
+                    if (data && data.url) {
+                        // 创建加速下载链接
+                        const acceleratedUrl = 'https://ghproxy.net/' + data.url;
+                        downloadBtn.href = acceleratedUrl;
+                        
+                        // 不更新按钮文本，保持原样
+                        console.log('CPL下载链接更新成功');
+                    }
                 } catch (error) {
-                    console.error("获取数据时出错:", error);
-                    tableBody.innerHTML = `
-                        <tr>
-                            <td colspan="6" style="text-align: center;">
-                                <i class="fas fa-exclamation-triangle" style="color: #e74c3c; font-size: 2rem;"></i>
-                                <p>获取数据失败，请稍后重试</p>
-                                <p class="error-details">${error.message}</p>
-                            </td>
-                        </tr>
-                    `;
+                    console.error('更新CPL下载链接时出错:', error);
                 }
             }
-            
-            // 渲染表格
-            function renderTable() {
-                // 如果没有数据或过滤后没有结果
-                if (filteredData.length === 0) {
-                    tableBody.innerHTML = '';
-                    emptyState.style.display = 'block';
-                    pagination.innerHTML = '';
-                    return;
+
+            // 页面加载时更新下载链接
+            updateCPLDownloadLink();
+
+            // 辅助函数：检查元素是否是按钮或者在按钮内部
+            function isButtonOrChild(element) {
+                while (element) {
+                    if (element.classList && 
+                        (element.classList.contains('launcher-btn') || 
+                         element.classList.contains('download-btn') || 
+                         element.classList.contains('github-btn'))) {
+                        return true;
+                    }
+                    element = element.parentElement;
                 }
-                
-                emptyState.style.display = 'none';
-                
-                // 计算分页
-                const totalPages = Math.ceil(filteredData.length / pageSize);
-                const startIndex = (currentPage - 1) * pageSize;
-                const pageData = filteredData.slice(startIndex, startIndex + pageSize);
-                
-                // 渲染表格数据
-                tableBody.innerHTML = '';
-                
-                pageData.forEach(item => {
-                    // 检查黑名单是否生效
-                    const now = new Date();
-                    const unblockTime = new Date(item["Unblocking-time"]);
-                    const isActive = unblockTime > now;
+                return false;
+            }
+
+            // 卡片点击事件 - 只在点击非按钮区域时打开模态框
+            cards.forEach(card => {
+                card.addEventListener('click', async (event) => {
+                    // 如果点击的是按钮或者按钮内的元素，不打开模态框
+                    if (isButtonOrChild(event.target)) {
+                        return;
+                    }
                     
-                    // 格式化日期
-                    const formatDate = (dateString) => {
-                        try {
-                            const date = new Date(dateString);
-                            return isNaN(date.getTime()) ? "无效日期" : 
-                                date.toLocaleString('zh-CN', {
-                                    year: 'numeric',
-                                    month: '2-digit',
-                                    day: '2-digit',
-                                    hour: '2-digit',
-                                    minute: '2-digit'
-                                });
-                        } catch (e) {
-                            return "日期解析错误";
+                    const mdUrl = card.getAttribute('data-md-url');
+                    const apiUrl = card.getAttribute('data-api-url');
+                    const launcherName = card.querySelector('.launcher-name').textContent;
+
+                    // 更新模态框标题
+                    document.querySelector('.modal-title').textContent = launcherName + ' 详情';
+
+                    // 显示弹窗和加载动画
+                    modal.style.display = 'block';
+                    markdownContent.innerHTML = `
+                        <div class="loader"></div>
+                        <p style="text-align: center;">加载中，请稍候...</p>
+                    `;
+
+                    try {
+                        let content = '';
+
+                        // 如果是 CPL 卡片，加载版本信息
+                        if (apiUrl && launcherName === 'ChmlFrp_Professional_Launcher') {
+                            const apiResponse = await fetch(apiUrl);
+                            const apiData = await apiResponse.json();
+                            content += `
+                                <div class="version-info">
+                                    <h3><i class="fas fa-tag"></i> 最新版本: ${apiData.version}</h3>
+                                    <div class="update-notes">
+                                        <h4>更新内容:</h4>
+                                        <div class="markdown-display">
+                                            <pre class="markdown-code">${apiData.text}</pre>
+                                        </div>
+                                    </div>
+                                    <a href="${apiData.url}" class="download-btn" target="_blank">
+                                        <i class="fas fa-download"></i> 下载最新版本
+                                    </a>
+                                </div>
+                                <hr>
+                            `;
                         }
-                    };
-                    
-                    // 应用徽章颜色
-                    let appBadgeClass = 'app-cpl';
-                    switch(item["app-belongs"]) {
-                        case 'CPL':
-                            appBadgeClass = 'app-cpl';
-                            break;
-                        case 'CUL':
-                            appBadgeClass = 'app-cul';
-                            break;
-                        case 'XCL':
-                            appBadgeClass = 'app-xcl';
-                            break;
-                    }
-                    
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td class="reason-cell">${item.reason}</td>
-                        <td class="time-cell">${formatDate(item["Blockade-time"])}</td>
-                        <td>
-                            <span class="app-badge ${appBadgeClass}">${item["app-belongs"]}</span>
-                        </td>
-                        <td>${item.email}</td>
-                        <td class="time-cell">${formatDate(item["Unblocking-time"])}</td>
-                        <td>
-                            <span class="status-badge ${isActive ? 'status-active' : 'status-expired'}">
-                                ${isActive ? '生效中' : '已过期'}
-                            </span>
-                        </td>
-                    `;
-                    tableBody.appendChild(row);
-                });
-                
-                // 渲染分页
-                renderPagination(totalPages);
-            }
-            
-            // 渲染分页控件
-            function renderPagination(totalPages) {
-                pagination.innerHTML = '';
-                
-                if (totalPages <= 1) {
-                    return;
-                }
-                
-                // 上一页按钮
-                const prevBtn = document.createElement('button');
-                prevBtn.className = 'pagination-btn';
-                prevBtn.innerHTML = '<i class="fas fa-chevron-left"></i>';
-                prevBtn.disabled = currentPage === 1;
-                prevBtn.addEventListener('click', () => {
-                    if (currentPage > 1) {
-                        currentPage--;
-                        renderTable();
+                        // 如果是 CUL 卡片，加载版本信息
+                        else if (apiUrl && launcherName === 'CHMLFRP-UI-Launcher') {
+                            const apiResponse = await fetch(apiUrl);
+                            const apiData = await apiResponse.json();
+                            const tagName = apiData.tag_name || '未知版本';
+                            let downloadUrl = '暂无下载链接';
+                            if (apiData.assets && apiData.assets.length > 0) {
+                                downloadUrl = apiData.assets[0].browser_download_url;
+                            }
+                            content += `
+                                <div class="version-info">
+                                    <h3><i class="fas fa-tag"></i> 最新版本: ${tagName}</h3>
+                                    <div class="update-notes">
+                                        <h4>更新内容:</h4>
+                                        <div class="markdown-display">
+                                            <pre class="markdown-code">${apiData.body}</pre>
+                                        </div>
+                                    </div>
+                                    <a href="${downloadUrl}" class="download-btn" target="_blank">
+                                        <i class="fas fa-download"></i> 下载最新版本
+                                    </a>
+                                </div>
+                                <hr>
+                            `;
+                        }
+
+                        // 加载 Markdown 文件
+                        const response = await fetch(mdUrl);
+                        const markdown = await response.text();
+                        content += marked.parse(markdown);
+
+                        // 更新弹窗内容
+                        markdownContent.innerHTML = content;
+                    } catch (error) {
+                        console.error('加载失败:', error);
+                        markdownContent.innerHTML = `
+                            <div class="error-message">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <p>加载内容失败，请稍后重试。</p>
+                                <p>错误信息: ${error.message}</p>
+                            </div>
+                        `;
                     }
                 });
-                pagination.appendChild(prevBtn);
-                
-                // 页码按钮
-                const maxPageButtons = 5;
-                let startPage = Math.max(1, currentPage - Math.floor(maxPageButtons / 2));
-                let endPage = Math.min(totalPages, startPage + maxPageButtons - 1);
-                
-                if (endPage - startPage + 1 < maxPageButtons) {
-                    startPage = Math.max(1, endPage - maxPageButtons + 1);
-                }
-                
-                for (let i = startPage; i <= endPage; i++) {
-                    const pageBtn = document.createElement('button');
-                    pageBtn.className = `pagination-btn ${i === currentPage ? 'active' : ''}`;
-                    pageBtn.textContent = i;
-                    pageBtn.addEventListener('click', () => {
-                        currentPage = i;
-                        renderTable();
-                    });
-                    pagination.appendChild(pageBtn);
-                }
-                
-                // 下一页按钮
-                const nextBtn = document.createElement('button');
-                nextBtn.className = 'pagination-btn';
-                nextBtn.innerHTML = '<i class="fas fa-chevron-right"></i>';
-                nextBtn.disabled = currentPage === totalPages;
-                nextBtn.addEventListener('click', () => {
-                    if (currentPage < totalPages) {
-                        currentPage++;
-                        renderTable();
-                    }
-                });
-                pagination.appendChild(nextBtn);
-            }
-            
-            // 初始加载
-            loadData();
+            });
         });
     </script>
 </body>
