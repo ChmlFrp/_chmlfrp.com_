@@ -194,6 +194,29 @@
             font-family: monospace;
             overflow-x: auto;
         }
+        
+        /* 更新说明样式 */
+        .markdown-display {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0 15px 0;
+            border: 1px solid #e9ecef;
+        }
+        
+        .markdown-code {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            margin: 0;
+            padding: 0;
+            border: none;
+            background: transparent;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: visible;
+        }
     </style>
 </head>
 <body>
@@ -281,7 +304,7 @@
                         <a href="https://github.com/ChmlFrp/ChmlFrp_Professional_Launcher" target="_blank" class="launcher-btn github-btn">
                             <i class="fab fa-github"></i> GitHub
                         </a>
-                        <a href="https://ghproxy.net/https://github.com/boringstudents/cpl/blob/main/bin/Lastest.exe" class="launcher-btn download-btn">
+                        <a href="#" id="cpl-download-btn" class="launcher-btn download-btn">
                             <i class="fas fa-download"></i> 加速下载
                         </a>
                     </div>
@@ -410,9 +433,59 @@
                 }
             });
 
-            // 卡片点击事件
+            // 更新CPL下载链接
+            async function updateCPLDownloadLink() {
+                try {
+                    const cplCard = document.getElementById('cpl');
+                    if (!cplCard) return;
+                    
+                    const apiUrl = cplCard.getAttribute('data-api-url');
+                    const downloadBtn = document.getElementById('cpl-download-btn');
+                    
+                    if (!apiUrl || !downloadBtn) return;
+                    
+                    // 获取版本数据
+                    const response = await fetch(apiUrl);
+                    const data = await response.json();
+                    
+                    if (data && data.url) {
+                        // 创建加速下载链接
+                        const acceleratedUrl = 'https://ghproxy.net/' + data.url;
+                        downloadBtn.href = acceleratedUrl;
+                        
+                        // 不更新按钮文本，保持原样
+                        console.log('CPL下载链接更新成功');
+                    }
+                } catch (error) {
+                    console.error('更新CPL下载链接时出错:', error);
+                }
+            }
+
+            // 页面加载时更新下载链接
+            updateCPLDownloadLink();
+
+            // 辅助函数：检查元素是否是按钮或者在按钮内部
+            function isButtonOrChild(element) {
+                while (element) {
+                    if (element.classList && 
+                        (element.classList.contains('launcher-btn') || 
+                         element.classList.contains('download-btn') || 
+                         element.classList.contains('github-btn'))) {
+                        return true;
+                    }
+                    element = element.parentElement;
+                }
+                return false;
+            }
+
+            // 卡片点击事件 - 只在点击非按钮区域时打开模态框
             cards.forEach(card => {
-                card.addEventListener('click', async () => {
+                card.addEventListener('click', async (event) => {
+                    // 如果点击的是按钮或者按钮内的元素，不打开模态框
+                    if (isButtonOrChild(event.target)) {
+                        return;
+                    }
+                    
                     const mdUrl = card.getAttribute('data-md-url');
                     const apiUrl = card.getAttribute('data-api-url');
                     const launcherName = card.querySelector('.launcher-name').textContent;
@@ -439,7 +512,9 @@
                                     <h3><i class="fas fa-tag"></i> 最新版本: ${apiData.version}</h3>
                                     <div class="update-notes">
                                         <h4>更新内容:</h4>
-                                        <p>${apiData.text}</p>
+                                        <div class="markdown-display">
+                                            <pre class="markdown-code">${apiData.text}</pre>
+                                        </div>
                                     </div>
                                     <a href="${apiData.url}" class="download-btn" target="_blank">
                                         <i class="fas fa-download"></i> 下载最新版本
@@ -462,7 +537,9 @@
                                     <h3><i class="fas fa-tag"></i> 最新版本: ${tagName}</h3>
                                     <div class="update-notes">
                                         <h4>更新内容:</h4>
-                                        <p>${apiData.body}</p>
+                                        <div class="markdown-display">
+                                            <pre class="markdown-code">${apiData.body}</pre>
+                                        </div>
                                     </div>
                                     <a href="${downloadUrl}" class="download-btn" target="_blank">
                                         <i class="fas fa-download"></i> 下载最新版本
