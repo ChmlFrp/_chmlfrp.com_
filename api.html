@@ -632,9 +632,9 @@
                 // 更新服务器信息
                 document.getElementById('serverName').textContent = data.serverName;
 
-                // 更新指标数据
+                // 更新指标数据 - 修改总负载显示，乘以10
                 const metrics = [
-                    { id: 'load', value: `${data.load.toFixed(2)}%`, trend: 'up' },
+                    { id: 'load', value: `${(data.load * 10).toFixed(2)}%`, trend: 'up' },
                     { id: 'cpu', value: `${data.metrics.cpu.toFixed(2)}%`, trend: data.metrics.cpu > 70 ? 'up' : 'down' },
                     { id: 'memory', value: `${data.metrics.memory.toFixed(2)}%`, trend: data.metrics.memory > 80 ? 'up' : 'down' },
                     { id: 'steal', value: data.metrics.steal.toFixed(2), trend: data.metrics.steal > 5 ? 'up' : 'down' },
@@ -659,8 +659,8 @@
                     }
                 });
 
-                // 更新进度条
-                const loadValue = parseFloat(data.load);
+                // 更新进度条 - 修改服务器负载情况显示，乘以10
+                const loadValue = parseFloat(data.load) * 10;
                 const progressBar = document.getElementById('loadProgress');
                 const loadText = document.getElementById('loadText');
                 
