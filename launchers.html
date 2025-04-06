@@ -6,168 +6,342 @@
     <title>ChmlFrp 启动器列表</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="https://chmlfrp.cn/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
-        /* 弹窗样式 */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.5);
+        /* 启动器列表页特殊样式 */
+        .launcher-filters {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0 30px;
         }
-
-        .modal-content {
-            background-color: #fefefe;
-            margin: 10% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
-            max-width: 800px;
-            border-radius: 10px;
+        
+        .filter-btn {
+            background-color: #f1f1f1;
+            border: none;
+            color: var(--text-color);
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+        
+        .filter-btn:hover, .filter-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .launcher-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .launcher-card {
+            background: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
             position: relative;
         }
-
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
+        
+        .launcher-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
         }
-
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
+        
+        .launcher-banner {
+            height: 120px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            position: relative;
         }
-
-        /* 加载动画 */
-        .loader {
-            border: 5px solid #f3f3f3;
-            border-top: 5px solid #3498db;
+        
+        .launcher-logo {
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 1s linear infinite;
-            margin: 20px auto;
+            position: absolute;
+            bottom: -30px;
+            left: 30px;
+            border: 5px solid white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            object-fit: cover;
+            background-color: white;
         }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        
+        .launcher-content {
+            padding: 40px 25px 25px;
         }
-
-        /* 卡片样式 */
-        .card {
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            padding: 20px;
-            margin: 10px;
-            width: 300px;
+        
+        .launcher-name {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin: 0 0 10px;
+            font-size: 1.2rem;
+        }
+        
+        .launcher-desc {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        
+        .launcher-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .launcher-meta-item {
+            display: flex;
+            align-items: center;
+            font-size: 0.85rem;
+        }
+        
+        .launcher-meta-item i {
+            color: var(--primary-color);
+            margin-right: 5px;
+        }
+        
+        .launcher-links {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .launcher-btn {
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            text-decoration: none;
+            transition: var(--transition);
+            flex: 1;
             text-align: center;
-            cursor: pointer;
         }
-
-        .card img {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-        }
-
-        .card h3 {
-            margin: 10px 0;
-        }
-
-        .card p {
-            margin: 5px 0;
-        }
-
-        .card a {
-            color: #007bff;
-            text-decoration: none;
-        }
-
-        .card a:hover {
-            text-decoration: underline;
-        }
-
-        .download-btn {
-            background-color: #28a745;
+        
+        .github-btn {
+            background-color: #24292e;
             color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
         }
-
-        .download-btn:hover {
-            background-color: #218838;
+        
+        .github-btn:hover {
+            background-color: #1a1d21;
+            transform: translateY(-3px);
+        }
+        
+        .download-btn {
+            margin: 0;
+        }
+        
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 15px;
+        }
+        
+        .tech-tag {
+            background-color: rgba(52, 152, 219, 0.1);
+            color: var(--primary-color);
+            border-radius: 15px;
+            padding: 3px 10px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        /* 弹窗样式优化 */
+        .modal-header {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin: 0;
+        }
+        
+        #markdown-content {
+            line-height: 1.6;
+        }
+        
+        #markdown-content h1,
+        #markdown-content h2,
+        #markdown-content h3 {
+            color: var(--primary-color);
+            margin-top: 25px;
+        }
+        
+        #markdown-content img {
+            max-width: 100%;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        #markdown-content pre,
+        #markdown-content code {
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            padding: 10px;
+            font-family: monospace;
+            overflow-x: auto;
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>ChmlFrp 第三方启动器</h1>
+        <h1><i class="fas fa-rocket"></i> ChmlFrp 第三方启动器</h1>
     </header>
     <nav>
         <ul>
-            <li><a href="index.html">首页</a></li>
-            <li><a href="launchers.html">启动器列表</a></li>
-            <li><a href="users.html">作者</a></li>
-            <li><a href="api.html" target="_blank">API 状态</a></li>
-            <li><a href="blacklist.html"target="_blank">内网穿透联盟黑名单</a></li>
-            <li><a href="blacklist-l.html"target="_blank">启动器黑名单</a></li>
+            <li><a href="index.html"><i class="fas fa-home"></i> 首页</a></li>
+            <li><a href="launchers.html"><i class="fas fa-list"></i> 启动器列表</a></li>
+            <li><a href="users.html"><i class="fas fa-users"></i> 作者</a></li>
+            <li><a href="api.html" target="_blank"><i class="fas fa-chart-line"></i> API状态</a></li>
+            <li><a href="blacklist.html" target="_blank"><i class="fas fa-ban"></i> 联盟黑名单</a></li>
+            <li><a href="blacklist-l.html" target="_blank"><i class="fas fa-user-slash"></i> 启动器黑名单</a></li>
         </ul>
     </nav>
     <main>
-        <h2>启动器列表</h2>
-        <div class="container">
+        <h2><i class="fas fa-rocket"></i> 启动器列表</h2>
+        
+        <div class="launcher-filters">
+            <button class="filter-btn active" data-filter="all">全部</button>
+            <button class="filter-btn" data-filter="wpf">.NET/WPF</button>
+            <button class="filter-btn" data-filter="python">Python</button>
+        </div>
+        
+        <div class="launcher-grid">
             <!-- XCL 卡片 -->
-            <div class="card" data-md-url="https://raw.githubusercontent.com/FengXiangqaq/Xingcheng-Chmlfrp-Lanucher/refs/heads/main/README.md">
-                <img src="http://q1.qlogo.cn/g?b=qq&nk=1281754856&s=640" alt="xcl">
-                <h3>Xingcheng-Chmlfrp-Lanucher</h3>
-                <p>一个用于启动 chmlfrp 服务的客户端。</p>
-                <a href="https://github.com/FengXiangqaq/Xingcheng-Chmlfrp-Lanucher/" target="_blank">xcl.chmlfrp.com</a>
-                <p>作者：FengXiangqaq</p>
-                <p>版本：2.0</p>
-                <p>下载链接：<a href="https://github.com/boringstudents/xcl/releases/download/XCL.II-Alpha.zip" target="_blank">XCL.II-Alpha.zip</a></p>
-                <button class="download-btn" onclick="window.open('https://ghproxy.net/https://github.com/boringstudents/xcl/releases/download/0.0.1/XCL.II-Alpha.zip')">加速下载</button>
+            <div class="launcher-card" id="xcl" data-category="python" data-md-url="https://raw.githubusercontent.com/FengXiangQaQ/Xingcheng-Chmlfrp-Lanucher/refs/heads/main/README.md">
+                <div class="launcher-banner"></div>
+                <img src="http://q1.qlogo.cn/g?b=qq&nk=1281754856&s=640" alt="xcl" class="launcher-logo">
+                <div class="launcher-content">
+                    <h3 class="launcher-name">Xingcheng-Chmlfrp-Lanucher</h3>
+                    <p class="launcher-desc">一个用于启动 chmlfrp 服务的客户端，简洁易用，功能完善。</p>
+                    
+                    <div class="tech-tags">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">Tkinter</span>
+                        <span class="tech-tag">Win32api</span>
+                    </div>
+                    
+                    <div class="launcher-meta">
+                        <div class="launcher-meta-item">
+                            <i class="fas fa-code-branch"></i>
+                            <span>版本: 2.0</span>
+                        </div>
+                        <div class="launcher-meta-item">
+                            <i class="fas fa-user"></i>
+                            <span>作者: FengXiangqaq</span>
+                        </div>
+                    </div>
+                    
+                    <div class="launcher-links">
+                        <a href="https://github.com/FengXiangqaq/Xingcheng-Chmlfrp-Lanucher/" target="_blank" class="launcher-btn github-btn">
+                            <i class="fab fa-github"></i> GitHub
+                        </a>
+                        <a href="https://ghproxy.net/https://github.com/boringstudents/xcl/releases/download/0.0.1/XCL.II-Alpha.zip" class="launcher-btn download-btn">
+                            <i class="fas fa-download"></i> 加速下载
+                        </a>
+                    </div>
+                </div>
             </div>
 
             <!-- CPL 卡片 -->
-            <div class="card" data-md-url="https://raw.githubusercontent.com/ChmlFrp/ChmlFrp_Professional_Launcher/refs/heads/master/README.md" data-api-url="https://raw.githubusercontent.com/boringstudents/cpl/refs/heads/main/update/update.json">
-                <img src="https://github.com/ChmlFrp/ChmlFrp_Professional_Launcher/raw/refs/heads/master/.github/icon/logo.ico" alt="cpl">
-                <h3>ChmlFrp_Professional_Launcher</h3>
-                <p>ChmlFrp 第三方 Windows 图形化客户端，使用 WPF + C# + .NET Framework 开发。</p>
-                <a href="https://github.com/ChmlFrp/ChmlFrp_Professional_Launcher" target="_blank">cpl.chmlfrp.com</a>
-                <p>作者：Qianyiaz</p>
-                <p>下载链接：<a href="https://cpl.chmlfrp.com/bin/Lastest.exe" target="_blank">Lastest.exe</a></p>
-                <button class="download-btn" onclick="window.open('https://ghproxy.net/https://github.com/boringstudents/cpl/blob/main/bin/Lastest.exe')">加速下载</button>
+            <div class="launcher-card" id="cpl" data-category="wpf" data-md-url="https://raw.githubusercontent.com/ChmlFrp/ChmlFrp_Professional_Launcher/refs/heads/master/README.md" data-api-url="https://raw.githubusercontent.com/boringstudents/cpl/refs/heads/main/update/update.json">
+                <div class="launcher-banner"></div>
+                <img src="https://github.com/ChmlFrp/ChmlFrp_Professional_Launcher/raw/refs/heads/master/.github/icon/logo.ico" alt="cpl" class="launcher-logo">
+                <div class="launcher-content">
+                    <h3 class="launcher-name">ChmlFrp_Professional_Launcher</h3>
+                    <p class="launcher-desc">ChmlFrp 第三方 Windows 图形化客户端，使用 WPF + C# + .NET Framework 开发。功能丰富，界面美观。</p>
+                    
+                    <div class="tech-tags">
+                        <span class="tech-tag">WPF</span>
+                        <span class="tech-tag">C#</span>
+                        <span class="tech-tag">.NET Framework</span>
+                    </div>
+                    
+                    <div class="launcher-meta">
+                        <div class="launcher-meta-item">
+                            <i class="fas fa-user"></i>
+                            <span>作者: Qianyiaz</span>
+                        </div>
+                    </div>
+                    
+                    <div class="launcher-links">
+                        <a href="https://github.com/ChmlFrp/ChmlFrp_Professional_Launcher" target="_blank" class="launcher-btn github-btn">
+                            <i class="fab fa-github"></i> GitHub
+                        </a>
+                        <a href="https://ghproxy.net/https://github.com/boringstudents/cpl/blob/main/bin/Lastest.exe" class="launcher-btn download-btn">
+                            <i class="fas fa-download"></i> 加速下载
+                        </a>
+                    </div>
+                </div>
             </div>
 
             <!-- CUL 卡片 -->
-            <div class="card" data-md-url="https://raw.githubusercontent.com/boringstudents/CHMLFRP-UI-Launcher/refs/heads/master/README.md" data-api-url="https://api.github.com/repos/boringstudents/CHMLFRP-UI-Launcher/releases/latest">
-                <img src="https://raw.githubusercontent.com/boringstudents/CHMLFRP-UI-Launcher/refs/heads/master/favicon.ico" alt="cul">
-                <h3>CHMLFRP-UI-Launcher</h3>
-                <p>ChmlFrp 第三方 Windows 图形化客户端，使用 PyQt6 + Python 开发。</p>
-                <a href="https://github.com/boringstudents/CHMLFRP-UI-Launcher/" target="_blank">cul.chmlfrp.com</a>
-                <p>作者：boringstudents</p>
-                <p>下载链接：<a href="https://cul.lanzoul.com/b00pzv3oyj" target="_blank">CUL 下载</a> 密码: ff50</p>
+            <div class="launcher-card" id="cul" data-category="python" data-md-url="https://raw.githubusercontent.com/boringstudents/CHMLFRP-UI-Launcher/refs/heads/master/README.md" data-api-url="https://api.github.com/repos/boringstudents/CHMLFRP-UI-Launcher/releases/latest">
+                <div class="launcher-banner"></div>
+                <img src="https://raw.githubusercontent.com/boringstudents/CHMLFRP-UI-Launcher/refs/heads/master/%E5%8E%9F%E5%A7%8B%E5%9B%BE%E5%83%8F/%E6%9C%89%E5%BA%95/favicon512.png" alt="cul" class="launcher-logo">
+                <div class="launcher-content">
+                    <h3 class="launcher-name">CHMLFRP-UI-Launcher</h3>
+                    <p class="launcher-desc">ChmlFrp 第三方 Windows 图形化客户端，使用 PyQt6 + Python 开发。高自由度和高扩展操作。</p>
+                    
+                    <div class="tech-tags">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">PyQt6</span>
+                        <span class="tech-tag">GUI</span>
+                    </div>
+                    
+                    <div class="launcher-meta">
+                        <div class="launcher-meta-item">
+                            <i class="fas fa-user"></i>
+                            <span>作者: boringstudents</span>
+                        </div>
+                    </div>
+                    
+                    <div class="launcher-links">
+                        <a href="https://github.com/boringstudents/CHMLFRP-UI-Launcher/" target="_blank" class="launcher-btn github-btn">
+                            <i class="fab fa-github"></i> GitHub
+                        </a>
+                        <a href="https://cul.lanzoul.com/b00pzv3oyj" target="_blank" class="launcher-btn download-btn">
+                            <i class="fas fa-download"></i> 蓝奏云下载
+                        </a>
+                    </div>
+                    <div class="launcher-note">
+                        <i class="fas fa-info-circle"></i> 蓝奏云密码: ff50
+                    </div>
+                </div>
             </div>
         </div>
     </main>
     <footer>
-        <p>© 2025 Github.com/ChmlFrp</p>
+        <div class="footer-content">
+            <p>© 2025 <a href="https://github.com/ChmlFrp" target="_blank"><i class="fab fa-github"></i> Github.com/ChmlFrp</a></p>
+            <div class="footer-nav">
+                <a href="index.html">首页</a> | 
+                <a href="launchers.html">启动器</a> | 
+                <a href="users.html">作者</a>
+            </div>
+        </div>
     </footer>
 
     <!-- 弹窗 -->
     <div class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
+            <div class="modal-header">
+                <h2 class="modal-title">启动器详情</h2>
+            </div>
             <div id="markdown-content">
                 <!-- 加载动画 -->
                 <div class="loader"></div>
@@ -180,10 +354,49 @@
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const cards = document.querySelectorAll('.card');
+            const cards = document.querySelectorAll('.launcher-card');
             const modal = document.querySelector('.modal');
             const closeBtn = modal.querySelector('.close');
             const markdownContent = document.getElementById('markdown-content');
+            const filterBtns = document.querySelectorAll('.filter-btn');
+
+            // 随机渐变颜色
+            const colors = [
+                ['#3498db', '#2ecc71'],
+                ['#9b59b6', '#3498db'],
+                ['#e74c3c', '#f39c12'],
+                ['#1abc9c', '#3498db'],
+                ['#f39c12', '#d35400'],
+                ['#8e44ad', '#3498db']
+            ];
+            
+            // 为每个启动器卡片添加随机渐变背景
+            cards.forEach((card, index) => {
+                const banner = card.querySelector('.launcher-banner');
+                const colorPair = colors[index % colors.length];
+                banner.style.background = `linear-gradient(135deg, ${colorPair[0]}, ${colorPair[1]})`;
+            });
+
+            // 过滤功能
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const filter = btn.getAttribute('data-filter');
+                    
+                    // 更新活动状态
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    
+                    // 过滤卡片
+                    cards.forEach(card => {
+                        const category = card.getAttribute('data-category');
+                        if (filter === 'all' || category === filter) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            });
 
             // 关闭弹窗
             closeBtn.addEventListener('click', () => {
@@ -202,6 +415,10 @@
                 card.addEventListener('click', async () => {
                     const mdUrl = card.getAttribute('data-md-url');
                     const apiUrl = card.getAttribute('data-api-url');
+                    const launcherName = card.querySelector('.launcher-name').textContent;
+
+                    // 更新模态框标题
+                    document.querySelector('.modal-title').textContent = launcherName + ' 详情';
 
                     // 显示弹窗和加载动画
                     modal.style.display = 'block';
@@ -214,18 +431,25 @@
                         let content = '';
 
                         // 如果是 CPL 卡片，加载版本信息
-                        if (apiUrl && card.querySelector('h3').textContent === 'ChmlFrp_Professional_Launcher') {
+                        if (apiUrl && launcherName === 'ChmlFrp_Professional_Launcher') {
                             const apiResponse = await fetch(apiUrl);
                             const apiData = await apiResponse.json();
                             content += `
-                                <h3>版本: ${apiData.version}</h3>
-                                <p>更新内容: ${apiData.text}</p>
-                                <a href="${apiData.url}" target="_blank">下载最新版本</a>
+                                <div class="version-info">
+                                    <h3><i class="fas fa-tag"></i> 最新版本: ${apiData.version}</h3>
+                                    <div class="update-notes">
+                                        <h4>更新内容:</h4>
+                                        <p>${apiData.text}</p>
+                                    </div>
+                                    <a href="${apiData.url}" class="download-btn" target="_blank">
+                                        <i class="fas fa-download"></i> 下载最新版本
+                                    </a>
+                                </div>
                                 <hr>
                             `;
                         }
                         // 如果是 CUL 卡片，加载版本信息
-                        else if (apiUrl && card.querySelector('h3').textContent === 'CHMLFRP-UI-Launcher') {
+                        else if (apiUrl && launcherName === 'CHMLFRP-UI-Launcher') {
                             const apiResponse = await fetch(apiUrl);
                             const apiData = await apiResponse.json();
                             const tagName = apiData.tag_name || '未知版本';
@@ -234,9 +458,16 @@
                                 downloadUrl = apiData.assets[0].browser_download_url;
                             }
                             content += `
-                                <h3>版本: ${tagName}</h3>
-                                <p>更新内容: ${apiData.body}</p>
-                                <p>下载链接: <a href="${downloadUrl}" target="_blank">${downloadUrl}</a></p>
+                                <div class="version-info">
+                                    <h3><i class="fas fa-tag"></i> 最新版本: ${tagName}</h3>
+                                    <div class="update-notes">
+                                        <h4>更新内容:</h4>
+                                        <p>${apiData.body}</p>
+                                    </div>
+                                    <a href="${downloadUrl}" class="download-btn" target="_blank">
+                                        <i class="fas fa-download"></i> 下载最新版本
+                                    </a>
+                                </div>
                                 <hr>
                             `;
                         }
@@ -250,7 +481,13 @@
                         markdownContent.innerHTML = content;
                     } catch (error) {
                         console.error('加载失败:', error);
-                        markdownContent.innerHTML = '<p>加载内容失败，请稍后重试。</p>';
+                        markdownContent.innerHTML = `
+                            <div class="error-message">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <p>加载内容失败，请稍后重试。</p>
+                                <p>错误信息: ${error.message}</p>
+                            </div>
+                        `;
                     }
                 });
             });

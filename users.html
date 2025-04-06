@@ -3,51 +3,280 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>chmlfrp 作者列表</title>
+    <title>ChmlFrp 作者列表</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="https://chmlfrp.cn/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        .authors-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .authors-intro {
+            max-width: 800px;
+            margin: 0 auto 40px;
+            text-align: center;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        
+        .user-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            padding-bottom: 100px;
+        }
+        
+        .user-card {
+            background-color: var(--card-background);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            height: 100%;
+        }
+        
+        .user-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .user-banner {
+            height: 100px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            position: relative;
+        }
+        
+        .user-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            position: absolute;
+            top: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 5px solid white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+            object-fit: cover;
+            background-color: white;
+        }
+        
+        .user-card:hover .user-avatar {
+            transform: translateX(-50%) scale(1.05);
+        }
+        
+        .user-info {
+            padding: 80px 20px 30px;
+            text-align: center;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .user-name {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+        
+        .user-bio {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            flex-grow: 1;
+        }
+        
+        .user-launcher {
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+        
+        .user-launcher i {
+            color: var(--primary-color);
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: auto;
+        }
+        
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+        
+        .social-link:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-3px);
+        }
+        
+        .github-link {
+            color: #333;
+        }
+        
+        .github-link:hover {
+            background-color: #333;
+            color: white;
+        }
+        
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin: 15px 0;
+        }
+        
+        .skill-tag {
+            background-color: rgba(52, 152, 219, 0.1);
+            color: var(--primary-color);
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+    </style>
 </head>
 <body>
     <header>
-        <h1>ChmlFrp 第三方启动器作者</h1>
+        <h1><i class="fas fa-users"></i> ChmlFrp 第三方启动器作者</h1>
     </header>
     <nav>
         <ul>
-            <li><a href="index.html">首页</a></li>
-            <li><a href="launchers.html">启动器列表</a></li>
-            <li><a href="users.html">作者</a></li>
-            <li><a href="api.html" target="_blank">api状态</a></li>
-            <li><a href="blacklist.html" target="_blank">内网穿透联盟黑名单</a></li>
-            <li><a href="blacklist-l.html" target="_blank">启动器黑名单</a></li>
+            <li><a href="index.html"><i class="fas fa-home"></i> 首页</a></li>
+            <li><a href="launchers.html"><i class="fas fa-list"></i> 启动器列表</a></li>
+            <li><a href="users.html"><i class="fas fa-users"></i> 作者</a></li>
+            <li><a href="api.html" target="_blank"><i class="fas fa-chart-line"></i> API状态</a></li>
+            <li><a href="blacklist.html" target="_blank"><i class="fas fa-ban"></i> 联盟黑名单</a></li>
+            <li><a href="blacklist-l.html" target="_blank"><i class="fas fa-user-slash"></i> 启动器黑名单</a></li>
         </ul>
     </nav>
     <main>
-        <h2>用户列表</h2>
+        <div class="authors-header">
+            <h2><i class="fas fa-code"></i> 启动器开发者</h2>
+            <p class="authors-intro">
+                感谢这些优秀的开发者为 ChmlFrp 社区贡献了实用的第三方启动器，
+                他们的创新和努力使得 ChmlFrp 更加易用和功能丰富。
+            </p>
+        </div>
+        
         <div class="user-container">
-            <a href="https://github.com/Qianyiaz" target="_blank" class="user-card">
-                <img src="https://avatars.githubusercontent.com/u/175490100?v=4" alt="Qianyiaz">
-                <h3>Qianyiaz</h3>
-                <p>ChmlFrp_Professional_Launcher的开发者。</p>
-            </a>
+            <div class="user-card">
+                <div class="user-banner" style="background: linear-gradient(135deg, #3498db, #2ecc71);"></div>
+                <img src="https://avatars.githubusercontent.com/u/175490100?v=4" alt="Qianyiaz" class="user-avatar">
+                <div class="user-info">
+                    <h3 class="user-name">Qianyiaz</h3>
+                    <div class="user-launcher">
+                        <i class="fas fa-rocket"></i> ChmlFrp_Professional_Launcher (CPL)
+                    </div>
+                    <div class="skills">
+                        <span class="skill-tag">C#</span>
+                        <span class="skill-tag">WPF</span>
+                        <span class="skill-tag">.NET</span>
+                    </div>
+                    <p class="user-bio">
+                        CPL 启动器的主要开发者，专注于打造功能完善、界面美观的专业化工具。CPL 是一款基于 WPF 框架的 Windows 客户端，为用户提供了强大的管理功能。
+                    </p>
+                    <div class="social-links">
+                        <a href="https://github.com/Qianyiaz" target="_blank" class="social-link github-link">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
             
-            <a href="https://github.com/FengXiangQaQ" target="_blank" class="user-card">
-                <img src="https://avatars.githubusercontent.com/u/140891522?v=4" alt="FengXiangQaQ">
-                <h3>FengXiangQaQ</h3>
-                <p>Xingcheng-Chmlfrp-Lanucher的开发者。</p>
-            </a>
+            <div class="user-card">
+                <div class="user-banner" style="background: linear-gradient(135deg, #9b59b6, #3498db);"></div>
+                <img src="https://avatars.githubusercontent.com/u/140891522?v=4" alt="FengXiangQaQ" class="user-avatar">
+                <div class="user-info">
+                    <h3 class="user-name">FengXiangQaQ</h3>
+                    <div class="user-launcher">
+                        <i class="fas fa-rocket"></i> Xingcheng-Chmlfrp-Lanucher (XCL)
+                    </div>
+                    <div class="skills">
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">Tkinter</span>
+                        <span class="skill-tag">Win32api</span>
+                    </div>
+                    <p class="user-bio">
+                        XCL 启动器的创建者，致力于开发轻量级且易于使用的启动器解决方案。XCL 采用简洁的设计理念，为用户提供流畅的操作体验和必要的核心功能。
+                    </p>
+                    <div class="social-links">
+                        <a href="https://github.com/FengXiangQaQ" target="_blank" class="social-link github-link">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
 
-            <a href="https://github.com/boringstudents" target="_blank" class="user-card">
-                <img src="https://avatars.githubusercontent.com/u/183853199?v=4" alt="boringstudents">
-                <h3>boringstudents</h3>
-                <p>CHMLFRP-UI-Launcher的开发者。</p>
+            <div class="user-card">
+                <div class="user-banner" style="background: linear-gradient(135deg, #e74c3c, #f39c12);"></div>
+                <img src="https://avatars.githubusercontent.com/u/183853199?v=4" alt="boringstudents" class="user-avatar">
+                <div class="user-info">
+                    <h3 class="user-name">boringstudents</h3>
+                    <div class="user-launcher">
+                        <i class="fas fa-rocket"></i> CHMLFRP-UI-Launcher (CUL)
+                    </div>
+                    <div class="skills">
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">PyQt6</span>
+                        <span class="skill-tag">GUI</span>
+                    </div>
+                    <p class="user-bio">
+                        CUL 启动器的开发者，专注于使用 Python 和 PyQt6 创建跨平台的图形界面应用。CUL 以其简洁的界面和便捷的操作流程，为用户提供了另一种选择。
+                    </p>
+                    <div class="social-links">
+                        <a href="https://github.com/boringstudents" target="_blank" class="social-link github-link">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="join-community">
+            <h3><i class="fas fa-hand-point-right"></i> 加入社区</h3>
+            <p>如果您也是开发者，欢迎加入 ChmlFrp 社区，贡献您的创意和代码。通过创建新的启动器或改进现有项目，您可以帮助更多用户更好地使用 ChmlFrp 服务。</p>
+            <a href="https://github.com/ChmlFrp" target="_blank" class="join-btn">
+                <i class="fab fa-github"></i> 访问 GitHub 组织
             </a>
-
-            <div style="height: 100px;"></div> <!-- 留空的部分 -->
         </div>
     </main>
     <footer>
-        <p>© 2025 Github.com/ChmlFrp</p>
+        <div class="footer-content">
+            <p>© 2025 <a href="https://github.com/ChmlFrp" target="_blank"><i class="fab fa-github"></i> Github.com/ChmlFrp</a></p>
+            <div class="footer-nav">
+                <a href="index.html">首页</a> | 
+                <a href="launchers.html">启动器</a> | 
+                <a href="users.html">作者</a>
+            </div>
+        </div>
     </footer>
-    <script src="script.js"></script>
 </body>
 </html>
