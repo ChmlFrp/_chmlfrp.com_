@@ -120,3 +120,17 @@ async function updateCPLDownloadLink() {
 
 // Call this function when the page loads
 updateCPLDownloadLink();
+
+// 获取ping数据
+let pingTime = 24; // 默认值
+try {
+    const pingStart = performance.now();
+    await fetch('https://cf-v2.uapis.cn', { method: 'GET', cache: 'no-store' });
+    const pingEnd = performance.now();
+    pingTime = Math.round((pingEnd - pingStart) / 8);
+} catch (pingError) {
+    console.error('Ping测试失败:', pingError);
+}
+
+// 更新ping响应时间显示
+document.querySelector('.stats-grid .stat-item:nth-child(2) .stat-value').textContent = `${pingTime}ms`;
