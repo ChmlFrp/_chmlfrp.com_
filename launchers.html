@@ -217,6 +217,12 @@
             color: #333;
             overflow-x: visible;
         }
+        
+        .launcher-note {
+            margin-top: 10px;
+            font-size: 0.85rem;
+            color: #666;
+        }
     </style>
 </head>
 <body>
@@ -243,6 +249,38 @@
         </div>
         
         <div class="launcher-grid">
+            <!-- FrpcUI 卡片 (新增) -->
+            <div class="launcher-card" id="frpcui" data-category="wpf" data-md-url="https://raw.githubusercontent.com/huqikuangmo/FrpcUI/master/README.md">
+                <div class="launcher-banner"></div>
+                <img src="https://avatars.githubusercontent.com/u/82070050?v=4" alt="frpcui" class="launcher-logo">
+                <div class="launcher-content">
+                    <h3 class="launcher-name">FrpcUI</h3>
+                    <p class="launcher-desc">ChmlFrp 第三方 Windows 客户端，使用 C# 和 .NET 开发，提供简洁直观的用户界面。</p>
+                    
+                    <div class="tech-tags">
+                        <span class="tech-tag">C#</span>
+                        <span class="tech-tag">.NET</span>
+                        <span class="tech-tag">WPF</span>
+                    </div>
+                    
+                    <div class="launcher-meta">
+                        <div class="launcher-meta-item">
+                            <i class="fas fa-user"></i>
+                            <span>作者: 纯爱战神</span>
+                        </div>
+                    </div>
+                    
+                    <div class="launcher-links">
+                        <a href="https://github.com/huqikuangmo/FrpcUI" target="_blank" class="launcher-btn github-btn">
+                            <i class="fab fa-github"></i> GitHub
+                        </a>
+                        <a href="https://github.com/huqikuangmo/FrpcUI/releases/latest" class="launcher-btn download-btn">
+                            <i class="fas fa-download"></i> 下载
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
             <!-- XCL 卡片 -->
             <div class="launcher-card" id="xcl" data-category="python" data-md-url="https://raw.githubusercontent.com/FengXiangQaQ/Xingcheng-Chmlfrp-Lanucher/refs/heads/main/README.md">
                 <div class="launcher-banner"></div>
@@ -278,37 +316,39 @@
                     </div>
                 </div>
             </div>
-	<!-- CSL 卡片 -->
-<div class="launcher-card" id="csl" data-category="python" data-md-url="https://raw.githubusercontent.com/boringstudents/ChmlFrp-shell-Launcher/refs/heads/main/README.md" data-api-url="https://api.github.com/repos/boringstudents/ChmlFrp-shell-Launcher/releases/latest">
-    <div class="launcher-banner"></div>
-    <img src="https://raw.githubusercontent.com/boringstudents/CHMLFRP-UI-Launcher/refs/heads/master/%E5%8E%9F%E5%A7%8B%E5%9B%BE%E5%83%8F/%E6%9C%89%E5%BA%95/favicon512.png" alt="csl" class="launcher-logo">
-    <div class="launcher-content">
-        <h3 class="launcher-name">ChmlFrp-shell-Launcher</h3>
-        <p class="launcher-desc">ChmlFrp 第三方 Windows 图形化客户端，使用 Python 开发。轻量级命令行界面。</p>
-        
-        <div class="tech-tags">
-            <span class="tech-tag">Python</span>
-            <span class="tech-tag">Shell</span>
-            <span class="tech-tag">CLI</span>
-        </div>
-        
-        <div class="launcher-meta">
-            <div class="launcher-meta-item">
-                <i class="fas fa-user"></i>
-                <span>作者: boringstudents</span>
+            
+            <!-- CSL 卡片 -->
+            <div class="launcher-card" id="csl" data-category="python" data-md-url="https://raw.githubusercontent.com/boringstudents/ChmlFrp-shell-Launcher/refs/heads/main/README.md" data-api-url="https://api.github.com/repos/boringstudents/ChmlFrp-shell-Launcher/releases/latest">
+                <div class="launcher-banner"></div>
+                <img src="https://raw.githubusercontent.com/boringstudents/CHMLFRP-UI-Launcher/refs/heads/master/%E5%8E%9F%E5%A7%8B%E5%9B%BE%E5%83%8F/%E6%9C%89%E5%BA%95/favicon512.png" alt="csl" class="launcher-logo">
+                <div class="launcher-content">
+                    <h3 class="launcher-name">ChmlFrp-shell-Launcher</h3>
+                    <p class="launcher-desc">ChmlFrp 第三方 Windows 图形化客户端，使用 Python 开发。轻量级命令行界面。</p>
+                    
+                    <div class="tech-tags">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">Shell</span>
+                        <span class="tech-tag">CLI</span>
+                    </div>
+                    
+                    <div class="launcher-meta">
+                        <div class="launcher-meta-item">
+                            <i class="fas fa-user"></i>
+                            <span>作者: boringstudents</span>
+                        </div>
+                    </div>
+                    
+                    <div class="launcher-links">
+                        <a href="https://github.com/boringstudents/ChmlFrp-shell-Launcher/" target="_blank" class="launcher-btn github-btn">
+                            <i class="fab fa-github"></i> GitHub
+                        </a>
+                        <a href="https://csl.chmlfrp.com" class="launcher-btn download-btn">
+                            <i class="fas fa-download"></i> 加速下载
+                        </a>
+                    </div>
+                </div>
             </div>
-        </div>
-        
-        <div class="launcher-links">
-            <a href="https://github.com/boringstudents/ChmlFrp-shell-Launcher/" target="_blank" class="launcher-btn github-btn">
-                <i class="fab fa-github"></i> GitHub
-            </a>
-            <a href="https://csl.chmlfrp.com" class="launcher-btn download-btn">
-                <i class="fas fa-download"></i> 加速下载
-            </a>
-        </div>
-    </div>
-</div>
+            
             <!-- CPL 卡片 -->
             <div class="launcher-card" id="cpl" data-category="wpf" data-md-url="https://raw.githubusercontent.com/ChmlFrp/ChmlFrp_Professional_Launcher/refs/heads/master/README.md" data-api-url="https://raw.githubusercontent.com/boringstudents/cpl/refs/heads/main/update/update.json">
                 <div class="launcher-banner"></div>
@@ -420,7 +460,8 @@
                 ['#e74c3c', '#f39c12'],
                 ['#1abc9c', '#3498db'],
                 ['#f39c12', '#d35400'],
-                ['#8e44ad', '#3498db']
+                ['#8e44ad', '#3498db'],
+                ['#2980b9', '#27ae60'] // 新增一个颜色对
             ];
             
             // 为每个启动器卡片添加随机渐变背景
