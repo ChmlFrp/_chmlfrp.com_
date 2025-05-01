@@ -1,4 +1,4 @@
-// Find this section in launchers.html's <script> section and replace it:
+// Find this section in launchers's <script> section and replace it:
 
 // 卡片点击事件
 cards.forEach(card => {
