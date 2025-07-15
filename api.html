@@ -653,7 +653,7 @@
                     { id: 'memory', value: `${data.metrics.memory.toFixed(2)}%`, trend: data.metrics.memory > 80 ? 'up' : 'down' },
                     { id: 'steal', value: data.metrics.steal.toFixed(2), trend: data.metrics.steal > 5 ? 'up' : 'down' },
                     { id: 'ioLatency', value: `${data.metrics.ioLatency.toFixed(2)}ms`, trend: data.metrics.ioLatency > 50 ? 'up' : 'down' },
-                    { id: 'threadContention', value: `${(data.metrics.threadContention * 100).toFixed(2)}%`, trend: (data.metrics.threadContention * 100) > 50 ? 'up' : 'down' }
+                    { id: 'threadContention', value: `${(data.metrics.threadContention).toFixed(2)}%`, trend: (data.metrics.threadContention) > 50 ? 'up' : 'down' }
                 ];
 
                 metrics.forEach(metric => {
