@@ -648,7 +648,7 @@
 
                 // 更新指标数据 - 修改总负载显示，乘以10
                 const metrics = [
-                    { id: 'load', value: `${(data.load * 10).toFixed(2)}%`, trend: (data.load) > 5 ? 'up' : 'down' },
+                    { id: 'load', value: `${(data.load).toFixed(2)}%`, trend: (data.load) > 5 ? 'up' : 'down' },
                     { id: 'cpu', value: `${data.metrics.cpu.toFixed(2)}%`, trend: data.metrics.cpu > 70 ? 'up' : 'down' },
                     { id: 'memory', value: `${data.metrics.memory.toFixed(2)}%`, trend: data.metrics.memory > 80 ? 'up' : 'down' },
                     { id: 'steal', value: data.metrics.steal.toFixed(2), trend: data.metrics.steal > 5 ? 'up' : 'down' },
